@@ -8,6 +8,11 @@ export default defineConfig({
     environment: 'node',
     globals: true,
   },
+  css: {
+    postcss: {
+      plugins: [],
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
