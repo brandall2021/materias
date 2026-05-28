@@ -4,8 +4,9 @@ import { isMateriaActiva } from '@/lib/materia-status'
 import { InscripcionForm } from '@/components/InscripcionForm'
 import Link from 'next/link'
 
-export default async function InscripcionPage({ params }: { params: { materiaId: string } }) {
-  const materia = await prisma.materia.findUnique({ where: { id: params.materiaId } })
+export default async function InscripcionPage({ params }: { params: Promise<{ materiaId: string }> }) {
+  const { materiaId } = await params
+  const materia = await prisma.materia.findUnique({ where: { id: materiaId } })
 
   if (!materia || !isMateriaActiva(materia)) notFound()
 

@@ -9,8 +9,9 @@ function toDatetimeLocal(date: Date) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`
 }
 
-export default async function EditarMateriaPage({ params }: { params: { id: string } }) {
-  const materia = await prisma.materia.findUnique({ where: { id: params.id } })
+export default async function EditarMateriaPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const materia = await prisma.materia.findUnique({ where: { id } })
   if (!materia) notFound()
 
   const action = updateMateria.bind(null, materia.id)

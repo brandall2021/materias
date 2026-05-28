@@ -3,9 +3,10 @@ import { notFound } from 'next/navigation'
 import { ExportButtons } from '@/components/ExportButtons'
 import Link from 'next/link'
 
-export default async function InscriptosPage({ params }: { params: { id: string } }) {
+export default async function InscriptosPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const materia = await prisma.materia.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { inscripciones: { orderBy: { fechaInscripcion: 'asc' } } },
   })
   if (!materia) notFound()

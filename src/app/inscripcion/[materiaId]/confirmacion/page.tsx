@@ -6,10 +6,11 @@ export default async function ConfirmacionPage({
   params,
   searchParams,
 }: {
-  params: { materiaId: string }
-  searchParams: { id?: string }
+  params: Promise<{ materiaId: string }>
+  searchParams: Promise<{ id?: string }>
 }) {
-  const inscripcionId = searchParams.id
+  const { materiaId } = await params
+  const { id: inscripcionId } = await searchParams
   if (!inscripcionId) notFound()
 
   const inscripcion = await prisma.inscripcion.findUnique({
@@ -17,7 +18,7 @@ export default async function ConfirmacionPage({
     include: { materia: true },
   })
 
-  if (!inscripcion || inscripcion.materiaId !== params.materiaId) notFound()
+  if (!inscripcion || inscripcion.materiaId !== materiaId) notFound()
 
   return (
     <main className="min-h-screen bg-gray-50">

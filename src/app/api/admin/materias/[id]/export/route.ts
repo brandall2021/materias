@@ -5,16 +5,17 @@ import PDFDocument from 'pdfkit'
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const session = await auth()
   if (!session?.user) return new NextResponse('Unauthorized', { status: 401 })
 
+  const { id } = await context.params
   const { searchParams } = new URL(req.url)
   const format = searchParams.get('format') ?? 'csv'
 
   const materia = await prisma.materia.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       inscripciones: { orderBy: { fechaInscripcion: 'asc' } },
     },

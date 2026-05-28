@@ -5,10 +5,11 @@ import QRCode from 'qrcode'
 
 export async function GET(
   _req: Request,
-  { params }: { params: { inscripcionId: string } }
+  context: { params: Promise<{ inscripcionId: string }> }
 ) {
+  const { inscripcionId } = await context.params
   const inscripcion = await prisma.inscripcion.findUnique({
-    where: { id: params.inscripcionId },
+    where: { id: inscripcionId },
     include: { materia: true },
   })
 
