@@ -53,14 +53,14 @@ export function InscripcionForm({ materiaId }: { materiaId: string }) {
         title="Ingresá 7 u 8 dígitos numéricos"
         placeholder="12345678"
       />
-      <div>
+      <div className="overflow-hidden rounded-md border border-gray-200 bg-gray-50 p-3">
         <ReCAPTCHA
           ref={recaptchaRef}
           sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
         />
       </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <Button type="submit" disabled={pending}>
+      {error && <p className="text-sm font-medium text-red-600">{error}</p>}
+      <Button type="submit" disabled={pending} className="w-full">
         {pending ? 'Inscribiendo...' : 'Confirmar inscripción'}
       </Button>
     </form>

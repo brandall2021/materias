@@ -15,17 +15,19 @@ export default async function UsuariosPage() {
   const usuarios = await prisma.user.findMany({ orderBy: { createdAt: 'asc' } })
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Administradores</h1>
+    <div className="space-y-6">
+      <header>
+        <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700">Accesos</p>
+        <h1 className="mt-1 text-2xl font-bold text-gray-950">Administradores</h1>
+        <p className="mt-1 text-sm text-gray-500">Agregá o quitá usuarios con acceso al panel.</p>
+      </header>
 
-      <form action={handleAddUsuario} className="flex gap-3 mb-8 max-w-md">
-        <div className="flex-1">
+      <section className="rounded-md border border-gray-200 bg-white p-5 shadow-sm">
+        <form action={handleAddUsuario} className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
           <Input label="Agregar admin por email" name="email" type="email" placeholder="usuario@example.com" />
-        </div>
-        <div className="pt-6">
           <Button type="submit">Agregar</Button>
-        </div>
-      </form>
+        </form>
+      </section>
 
       <UsuariosTable usuarios={usuarios} currentUserId={session?.user?.id ?? ''} />
     </div>

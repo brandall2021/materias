@@ -5,24 +5,36 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const session = await auth()
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
       {session && (
-        <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <span className="font-bold text-gray-900">Admin</span>
-            <Link href="/admin" className="text-sm text-gray-600 hover:text-gray-900">Dashboard</Link>
-            <Link href="/admin/materias" className="text-sm text-gray-600 hover:text-gray-900">Materias</Link>
-            <Link href="/admin/usuarios" className="text-sm text-gray-600 hover:text-gray-900">Usuarios</Link>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-500">{session.user?.email}</span>
-            <form action={async () => { 'use server'; await signOut({ redirectTo: '/admin/login' }) }}>
-              <button type="submit" className="text-sm text-gray-600 hover:text-gray-900">Salir</button>
-            </form>
+        <nav className="border-b border-gray-200 bg-white">
+          <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+            <div className="flex flex-wrap items-center gap-4">
+              <Link href="/admin" className="font-bold text-gray-950">
+                Admin Materias
+              </Link>
+              <Link href="/admin" className="text-sm font-medium text-gray-600 hover:text-cyan-700">
+                Dashboard
+              </Link>
+              <Link href="/admin/materias" className="text-sm font-medium text-gray-600 hover:text-cyan-700">
+                Materias
+              </Link>
+              <Link href="/admin/usuarios" className="text-sm font-medium text-gray-600 hover:text-cyan-700">
+                Usuarios
+              </Link>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="max-w-[220px] truncate text-sm text-gray-500">{session.user?.email}</span>
+              <form action={async () => { 'use server'; await signOut({ redirectTo: '/admin/login' }) }}>
+                <button type="submit" className="text-sm font-semibold text-gray-600 hover:text-rose-700">
+                  Salir
+                </button>
+              </form>
+            </div>
           </div>
         </nav>
       )}
-      <main className="p-6">{children}</main>
+      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">{children}</main>
     </div>
   )
 }

@@ -25,11 +25,11 @@ export function DeleteMateriaButton({
 
   if (confirming) {
     return (
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-red-700">
+      <div className="flex max-w-full flex-wrap items-center justify-end gap-2 rounded-md border border-rose-200 bg-rose-50 p-2">
+        <span className="max-w-[260px] text-xs font-medium text-rose-800">
           {inscriptosCount > 0
-            ? `Esta materia tiene ${inscriptosCount} inscripto${inscriptosCount !== 1 ? 's' : ''}. ¿Confirmar eliminación?`
-            : '¿Eliminar esta materia?'}
+            ? `${nombre} tiene ${inscriptosCount} inscripto${inscriptosCount !== 1 ? 's' : ''}.`
+            : `Eliminar ${nombre}.`}
         </span>
         <Button variant="danger" onClick={handleDelete} disabled={pending}>
           {pending ? 'Eliminando...' : 'Confirmar'}

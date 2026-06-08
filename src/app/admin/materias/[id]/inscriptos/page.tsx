@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import { ExportButtons } from '@/components/ExportButtons'
+import { MateriaStatusBadge } from '@/components/MateriaStatusBadge'
 import Link from 'next/link'
 
 export default async function InscriptosPage({ params }: { params: Promise<{ id: string }> }) {
@@ -12,45 +13,58 @@ export default async function InscriptosPage({ params }: { params: Promise<{ id:
   if (!materia) notFound()
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <div className="mb-6">
-        <Link href="/admin/materias" className="text-sm text-gray-500 hover:text-gray-700">← Volver</Link>
-        <div className="flex items-center justify-between mt-2">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Inscriptos — {materia.nombre}
-          </h1>
+    <div className="space-y-6">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <Link href="/admin/materias" className="text-sm font-medium text-gray-500 hover:text-cyan-700">
+            Volver a materias
+          </Link>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-950">{materia.nombre}</h1>
+            <MateriaStatusBadge fechaApertura={materia.fechaApertura} fechaCierre={materia.fechaCierre} />
+          </div>
+          <p className="mt-1 text-sm text-gray-500">
+            {materia.inscripciones.length} inscripto{materia.inscripciones.length !== 1 ? 's' : ''}
+          </p>
+        </div>
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500 sm:text-right">Exportar</p>
           <ExportButtons materiaId={materia.id} />
         </div>
-        <p className="text-sm text-gray-500 mt-1">{materia.inscripciones.length} inscripto{materia.inscripciones.length !== 1 ? 's' : ''}</p>
-      </div>
+      </header>
 
       {materia.inscripciones.length === 0 ? (
-        <p className="text-gray-500">No hay inscriptos aún.</p>
-      ) : (
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-600 text-left">
-              <tr>
-                <th className="px-4 py-3 font-medium">Apellido</th>
-                <th className="px-4 py-3 font-medium">Nombre</th>
-                <th className="px-4 py-3 font-medium">DNI</th>
-                <th className="px-4 py-3 font-medium">Fecha de inscripción</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {materia.inscripciones.map((i) => (
-                <tr key={i.id}>
-                  <td className="px-4 py-3 text-gray-900">{i.apellido}</td>
-                  <td className="px-4 py-3 text-gray-900">{i.nombre}</td>
-                  <td className="px-4 py-3 text-gray-600">{i.dni}</td>
-                  <td className="px-4 py-3 text-gray-500">
-                    {i.fechaInscripcion.toLocaleString('es-AR')}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="rounded-md border border-dashed border-gray-300 bg-white px-6 py-12 text-center">
+          <h2 className="text-base font-semibold text-gray-900">Todavía no hay inscriptos</h2>
+          <p className="mt-1 text-sm text-gray-500">Cuando se registren alumnos, aparecerán en esta tabla.</p>
         </div>
+      ) : (
+        <section className="overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[680px] text-sm">
+              <thead className="bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <tr>
+                  <th className="px-5 py-3">Apellido</th>
+                  <th className="px-5 py-3">Nombre</th>
+                  <th className="px-5 py-3">DNI</th>
+                  <th className="px-5 py-3">Fecha de inscripción</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {materia.inscripciones.map((inscripcion) => (
+                  <tr key={inscripcion.id} className="hover:bg-gray-50">
+                    <td className="px-5 py-3 font-semibold text-gray-950">{inscripcion.apellido}</td>
+                    <td className="px-5 py-3 text-gray-800">{inscripcion.nombre}</td>
+                    <td className="px-5 py-3 text-gray-600">{inscripcion.dni}</td>
+                    <td className="px-5 py-3 text-gray-500">
+                      {inscripcion.fechaInscripcion.toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
       )}
     </div>
   )

@@ -24,40 +24,48 @@ export function UsuariosTable({ usuarios, currentUserId }: { usuarios: Usuario[]
   }
 
   return (
-    <div>
-      {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-gray-600 text-left">
-            <tr>
-              <th className="px-4 py-3 font-medium">Email</th>
-              <th className="px-4 py-3 font-medium">Nombre</th>
-              <th className="px-4 py-3 font-medium">Alta</th>
-              <th className="px-4 py-3 font-medium"></th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {usuarios.map((u) => (
-              <tr key={u.id}>
-                <td className="px-4 py-3 text-gray-900">{u.email}</td>
-                <td className="px-4 py-3 text-gray-600">{u.name ?? '—'}</td>
-                <td className="px-4 py-3 text-gray-500">{u.createdAt.toLocaleDateString('es-AR')}</td>
-                <td className="px-4 py-3">
-                  {u.id !== currentUserId && (
-                    <Button
-                      variant="danger"
-                      onClick={() => handleRemove(u.id)}
-                      disabled={pending === u.id}
-                    >
-                      {pending === u.id ? '...' : 'Eliminar'}
-                    </Button>
-                  )}
-                </td>
+    <section className="space-y-3">
+      {error && (
+        <p className="rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+          {error}
+        </p>
+      )}
+      <div className="overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] text-sm">
+            <thead className="bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              <tr>
+                <th className="px-5 py-3">Email</th>
+                <th className="px-5 py-3">Nombre</th>
+                <th className="px-5 py-3">Alta</th>
+                <th className="px-5 py-3 text-right">Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {usuarios.map((usuario) => (
+                <tr key={usuario.id} className="hover:bg-gray-50">
+                  <td className="px-5 py-3 font-semibold text-gray-950">{usuario.email}</td>
+                  <td className="px-5 py-3 text-gray-600">{usuario.name ?? 'Sin nombre'}</td>
+                  <td className="px-5 py-3 text-gray-500">{usuario.createdAt.toLocaleDateString('es-AR')}</td>
+                  <td className="px-5 py-3 text-right">
+                    {usuario.id === currentUserId ? (
+                      <span className="text-xs font-semibold uppercase tracking-wide text-gray-400">Actual</span>
+                    ) : (
+                      <Button
+                        variant="danger"
+                        onClick={() => handleRemove(usuario.id)}
+                        disabled={pending === usuario.id}
+                      >
+                        {pending === usuario.id ? 'Quitando...' : 'Quitar'}
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }

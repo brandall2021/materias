@@ -1,21 +1,25 @@
 import { ButtonHTMLAttributes } from 'react'
 
-type Variant = 'primary' | 'secondary' | 'danger'
+export type ButtonVariant = 'primary' | 'secondary' | 'danger'
 
-const variants: Record<Variant, string> = {
-  primary: 'bg-blue-600 hover:bg-blue-700 text-white',
-  secondary: 'bg-gray-100 hover:bg-gray-200 text-gray-800',
-  danger: 'bg-red-600 hover:bg-red-700 text-white',
+const variants: Record<ButtonVariant, string> = {
+  primary: 'bg-cyan-700 text-white shadow-sm hover:bg-cyan-800',
+  secondary: 'border border-gray-200 bg-white text-gray-800 shadow-sm hover:border-gray-300 hover:bg-gray-50',
+  danger: 'bg-rose-600 text-white shadow-sm hover:bg-rose-700',
 }
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: Variant
+  variant?: ButtonVariant
+}
+
+export function buttonClassName(variant: ButtonVariant = 'primary', className = '') {
+  return `inline-flex min-h-10 items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${variants[variant]} ${className}`
 }
 
 export function Button({ variant = 'primary', className = '', children, ...props }: Props) {
   return (
     <button
-      className={`px-4 py-2 rounded-md font-medium text-sm transition-colors disabled:opacity-50 ${variants[variant]} ${className}`}
+      className={buttonClassName(variant, className)}
       {...props}
     >
       {children}

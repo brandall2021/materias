@@ -1,41 +1,96 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
+import { MateriaStatusBadge } from '@/components/MateriaStatusBadge'
 
 export default async function AdminDashboard() {
-  const [totalMaterias, totalInscriptos] = await Promise.all([
+  const now = new Date()
+  const [totalMaterias, totalInscriptos, materiasActivas, recientes] = await Promise.all([
     prisma.materia.count(),
     prisma.inscripcion.count(),
+    prisma.materia.count({
+      where: {
+        fechaApertura: { lte: now },
+        fechaCierre: { gte: now },
+      },
+    }),
+    prisma.materia.findMany({
+      orderBy: { updatedAt: 'desc' },
+      take: 4,
+      include: { _count: { select: { inscripciones: true } } },
+    }),
   ])
 
-  const materiasActivas = await prisma.materia.count({
-    where: {
-      fechaApertura: { lte: new Date() },
-      fechaCierre: { gte: new Date() },
-    },
-  })
-
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <StatCard label="Total materias" value={totalMaterias} />
-        <StatCard label="Materias activas" value={materiasActivas} highlight />
-        <StatCard label="Total inscriptos" value={totalInscriptos} />
-      </div>
-      <div className="mt-8 flex gap-3">
-        <Link href="/admin/materias" className="text-sm text-blue-600 hover:underline">
-          Ver materias →
+    <div className="space-y-6">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700">Panel administrativo</p>
+          <h1 className="mt-1 text-2xl font-bold text-gray-950">Dashboard</h1>
+        </div>
+        <Link href="/admin/materias/nueva" className="text-sm font-semibold text-cyan-700 hover:text-cyan-800">
+          Crear materia
         </Link>
-      </div>
+      </header>
+
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <StatCard label="Total materias" value={totalMaterias} />
+        <StatCard label="Materias activas" value={materiasActivas} tone="success" />
+        <StatCard label="Total inscriptos" value={totalInscriptos} tone="info" />
+      </section>
+
+      <section className="rounded-md border border-gray-200 bg-white shadow-sm">
+        <div className="border-b border-gray-200 px-5 py-4">
+          <h2 className="text-base font-bold text-gray-950">Actividad reciente</h2>
+          <p className="text-sm text-gray-500">Últimas materias modificadas.</p>
+        </div>
+        {recientes.length === 0 ? (
+          <p className="px-5 py-8 text-sm text-gray-500">Todavía no hay materias creadas.</p>
+        ) : (
+          <div className="divide-y divide-gray-100">
+            {recientes.map((materia) => (
+              <Link
+                key={materia.id}
+                href={`/admin/materias/${materia.id}/inscriptos`}
+                className="flex flex-col gap-3 px-5 py-4 transition hover:bg-gray-50 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div className="min-w-0">
+                  <div className="mb-1 flex flex-wrap items-center gap-2">
+                    <h3 className="font-semibold text-gray-950">{materia.nombre}</h3>
+                    <MateriaStatusBadge fechaApertura={materia.fechaApertura} fechaCierre={materia.fechaCierre} />
+                  </div>
+                  <p className="text-sm text-gray-500">
+                    {materia._count.inscripciones} inscripto{materia._count.inscripciones !== 1 ? 's' : ''}
+                  </p>
+                </div>
+                <span className="text-sm font-semibold text-cyan-700">Ver inscriptos</span>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   )
 }
 
-function StatCard({ label, value, highlight = false }: { label: string; value: number; highlight?: boolean }) {
+function StatCard({
+  label,
+  value,
+  tone = 'neutral',
+}: {
+  label: string
+  value: number
+  tone?: 'neutral' | 'success' | 'info'
+}) {
+  const tones = {
+    neutral: 'border-gray-200 bg-white text-gray-950',
+    success: 'border-emerald-200 bg-emerald-50 text-emerald-800',
+    info: 'border-cyan-200 bg-cyan-50 text-cyan-800',
+  }
+
   return (
-    <div className={`rounded-xl border p-6 ${highlight ? 'border-blue-200 bg-blue-50' : 'border-gray-200 bg-white'}`}>
-      <p className="text-sm text-gray-500">{label}</p>
-      <p className={`text-3xl font-bold mt-1 ${highlight ? 'text-blue-700' : 'text-gray-900'}`}>{value}</p>
+    <div className={`rounded-md border p-5 shadow-sm ${tones[tone]}`}>
+      <p className="text-sm font-medium opacity-75">{label}</p>
+      <p className="mt-2 text-3xl font-bold">{value}</p>
     </div>
   )
 }

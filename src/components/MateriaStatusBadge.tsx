@@ -1,9 +1,9 @@
 import { getMateriaEstado } from '@/lib/materia-status'
 
 const styles = {
-  proxima: 'bg-yellow-100 text-yellow-800',
-  activa: 'bg-green-100 text-green-800',
-  cerrada: 'bg-gray-100 text-gray-600',
+  proxima: 'border-amber-200 bg-amber-50 text-amber-800',
+  activa: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+  cerrada: 'border-gray-200 bg-gray-50 text-gray-600',
 }
 
 const labels = {
@@ -15,7 +15,7 @@ const labels = {
 export function MateriaStatusBadge({ fechaApertura, fechaCierre }: { fechaApertura: Date; fechaCierre: Date }) {
   const estado = getMateriaEstado({ fechaApertura, fechaCierre })
   return (
-    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${styles[estado]}`}>
+    <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${styles[estado]}`}>
       {labels[estado]}
     </span>
   )
