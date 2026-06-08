@@ -14,8 +14,8 @@ export default async function AdminMateriasPage() {
     <div className="space-y-6">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700">Gestión académica</p>
-          <h1 className="mt-1 text-2xl font-bold text-gray-950">Materias</h1>
+          <p className="text-sm font-semibold uppercase tracking-wide text-face-red">Gestión académica</p>
+          <h1 className="mt-1 text-2xl font-bold text-face-blue">Materias</h1>
           <p className="mt-1 text-sm text-gray-500">Administrá aperturas, cierres e inscriptos.</p>
         </div>
         <Link href="/admin/materias/nueva" className={buttonClassName()}>
@@ -43,7 +43,7 @@ export default async function AdminMateriasPage() {
                 className="grid gap-4 px-5 py-4 lg:grid-cols-[1fr_150px_170px_260px] lg:items-center"
               >
                 <div className="min-w-0">
-                  <h2 className="font-semibold text-gray-950">{materia.nombre}</h2>
+                  <h2 className="font-semibold text-face-blue">{materia.nombre}</h2>
                   {materia.descripcion && (
                     <p className="mt-1 truncate text-sm text-gray-500">{materia.descripcion}</p>
                   )}

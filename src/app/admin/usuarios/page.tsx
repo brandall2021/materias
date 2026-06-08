@@ -17,8 +17,8 @@ export default async function UsuariosPage() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700">Accesos</p>
-        <h1 className="mt-1 text-2xl font-bold text-gray-950">Administradores</h1>
+        <p className="text-sm font-semibold uppercase tracking-wide text-face-red">Accesos</p>
+        <h1 className="mt-1 text-2xl font-bold text-face-blue">Administradores</h1>
         <p className="mt-1 text-sm text-gray-500">Agregá o quitá usuarios con acceso al panel.</p>
       </header>
 

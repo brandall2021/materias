@@ -44,7 +44,7 @@ export function UsuariosTable({ usuarios, currentUserId }: { usuarios: Usuario[]
             <tbody className="divide-y divide-gray-100">
               {usuarios.map((usuario) => (
                 <tr key={usuario.id} className="hover:bg-gray-50">
-                  <td className="px-5 py-3 font-semibold text-gray-950">{usuario.email}</td>
+                  <td className="px-5 py-3 font-semibold text-face-blue">{usuario.email}</td>
                   <td className="px-5 py-3 text-gray-600">{usuario.name ?? 'Sin nombre'}</td>
                   <td className="px-5 py-3 text-gray-500">{usuario.createdAt.toLocaleDateString('es-AR')}</td>
                   <td className="px-5 py-3 text-right">

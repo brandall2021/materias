@@ -19,11 +19,11 @@ export default async function EditarMateriaPage({ params }: { params: Promise<{ 
   return (
     <div className="max-w-3xl space-y-6">
       <header>
-        <Link href="/admin/materias" className="text-sm font-medium text-gray-500 hover:text-cyan-700">
+        <Link href="/admin/materias" className="text-sm font-medium text-gray-500 hover:text-face-red">
           Volver a materias
         </Link>
-        <p className="mt-6 text-sm font-semibold uppercase tracking-wide text-cyan-700">Editar apertura</p>
-        <h1 className="mt-1 text-2xl font-bold text-gray-950">{materia.nombre}</h1>
+        <p className="mt-6 text-sm font-semibold uppercase tracking-wide text-face-red">Editar apertura</p>
+        <h1 className="mt-1 text-2xl font-bold text-face-blue">{materia.nombre}</h1>
         <p className="mt-1 text-sm text-gray-500">Actualizá la información visible para alumnos.</p>
       </header>
       <MateriaForm

@@ -16,11 +16,11 @@ export default async function InscriptosPage({ params }: { params: Promise<{ id:
     <div className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <Link href="/admin/materias" className="text-sm font-medium text-gray-500 hover:text-cyan-700">
+          <Link href="/admin/materias" className="text-sm font-medium text-gray-500 hover:text-face-red">
             Volver a materias
           </Link>
           <div className="mt-3 flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-bold text-gray-950">{materia.nombre}</h1>
+            <h1 className="text-2xl font-bold text-face-blue">{materia.nombre}</h1>
             <MateriaStatusBadge fechaApertura={materia.fechaApertura} fechaCierre={materia.fechaCierre} />
           </div>
           <p className="mt-1 text-sm text-gray-500">
@@ -53,7 +53,7 @@ export default async function InscriptosPage({ params }: { params: Promise<{ id:
               <tbody className="divide-y divide-gray-100">
                 {materia.inscripciones.map((inscripcion) => (
                   <tr key={inscripcion.id} className="hover:bg-gray-50">
-                    <td className="px-5 py-3 font-semibold text-gray-950">{inscripcion.apellido}</td>
+                    <td className="px-5 py-3 font-semibold text-face-blue">{inscripcion.apellido}</td>
                     <td className="px-5 py-3 text-gray-800">{inscripcion.nombre}</td>
                     <td className="px-5 py-3 text-gray-600">{inscripcion.dni}</td>
                     <td className="px-5 py-3 text-gray-500">

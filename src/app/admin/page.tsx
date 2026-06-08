@@ -24,10 +24,10 @@ export default async function AdminDashboard() {
     <div className="space-y-6">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-cyan-700">Panel administrativo</p>
-          <h1 className="mt-1 text-2xl font-bold text-gray-950">Dashboard</h1>
+          <p className="text-sm font-semibold uppercase tracking-wide text-face-red">Panel administrativo</p>
+          <h1 className="mt-1 text-2xl font-bold text-face-blue">Dashboard</h1>
         </div>
-        <Link href="/admin/materias/nueva" className="text-sm font-semibold text-cyan-700 hover:text-cyan-800">
+        <Link href="/admin/materias/nueva" className="text-sm font-semibold text-face-red hover:text-red-700">
           Crear materia
         </Link>
       </header>
@@ -40,7 +40,7 @@ export default async function AdminDashboard() {
 
       <section className="rounded-md border border-gray-200 bg-white shadow-sm">
         <div className="border-b border-gray-200 px-5 py-4">
-          <h2 className="text-base font-bold text-gray-950">Actividad reciente</h2>
+          <h2 className="text-base font-bold text-face-blue">Actividad reciente</h2>
           <p className="text-sm text-gray-500">Últimas materias modificadas.</p>
         </div>
         {recientes.length === 0 ? (
@@ -55,14 +55,14 @@ export default async function AdminDashboard() {
               >
                 <div className="min-w-0">
                   <div className="mb-1 flex flex-wrap items-center gap-2">
-                    <h3 className="font-semibold text-gray-950">{materia.nombre}</h3>
+                    <h3 className="font-semibold text-face-blue">{materia.nombre}</h3>
                     <MateriaStatusBadge fechaApertura={materia.fechaApertura} fechaCierre={materia.fechaCierre} />
                   </div>
                   <p className="text-sm text-gray-500">
                     {materia._count.inscripciones} inscripto{materia._count.inscripciones !== 1 ? 's' : ''}
                   </p>
                 </div>
-                <span className="text-sm font-semibold text-cyan-700">Ver inscriptos</span>
+                <span className="text-sm font-semibold text-face-red">Ver inscriptos</span>
               </Link>
             ))}
           </div>
@@ -82,9 +82,9 @@ function StatCard({
   tone?: 'neutral' | 'success' | 'info'
 }) {
   const tones = {
-    neutral: 'border-gray-200 bg-white text-gray-950',
+    neutral: 'border-gray-200 bg-white text-face-blue',
     success: 'border-emerald-200 bg-emerald-50 text-emerald-800',
-    info: 'border-cyan-200 bg-cyan-50 text-cyan-800',
+    info: 'border-blue-200 bg-blue-50 text-face-blue',
   }
 
   return (

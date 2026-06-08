@@ -42,7 +42,7 @@ export function MateriaForm({ action, defaultValues }: MateriaFormProps) {
           name="descripcion"
           rows={4}
           defaultValue={defaultValues?.descripcion}
-          className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm outline-none transition placeholder:text-gray-400 focus:border-cyan-600 focus:ring-2 focus:ring-cyan-100"
+          className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm outline-none transition placeholder:text-gray-400 focus:border-face-red focus:ring-2 focus:ring-red-100"
         />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
