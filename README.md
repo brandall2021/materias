@@ -47,9 +47,6 @@ GOOGLE_CLIENT_ID=<desde Google Cloud Console>
 GOOGLE_CLIENT_SECRET=<desde Google Cloud Console>
 
 ADMIN_EMAIL=cpereyra@face.unt.edu.ar
-
-NEXT_PUBLIC_RECAPTCHA_SITE_KEY=<desde Google reCAPTCHA>
-RECAPTCHA_SECRET_KEY=<desde Google reCAPTCHA>
 ```
 
 > **Nota:** para `NEXTAUTH_SECRET` ejecutar en cualquier terminal:

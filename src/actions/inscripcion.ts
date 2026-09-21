@@ -2,7 +2,6 @@
 
 import { prisma } from '@/lib/prisma'
 import { isMateriaActiva } from '@/lib/materia-status'
-import { verifyRecaptcha } from '@/lib/recaptcha'
 import { revalidatePath } from 'next/cache'
 
 export type InscripcionResult =
@@ -14,7 +13,6 @@ export async function inscribirse(formData: FormData): Promise<InscripcionResult
   const nombre = (formData.get('nombre') as string)?.trim()
   const apellido = (formData.get('apellido') as string)?.trim()
   const dni = (formData.get('dni') as string)?.trim()
-  const captchaToken = formData.get('captchaToken') as string
 
   if (!nombre || !apellido || !dni || !materiaId) {
     return { success: false, error: 'Todos los campos son obligatorios' }
@@ -22,11 +20,6 @@ export async function inscribirse(formData: FormData): Promise<InscripcionResult
 
   if (!/^\d{7,8}$/.test(dni)) {
     return { success: false, error: 'El DNI debe tener 7 u 8 dígitos numéricos' }
-  }
-
-  const captchaOk = await verifyRecaptcha(captchaToken)
-  if (!captchaOk) {
-    return { success: false, error: 'Por favor completá la verificación' }
   }
 
   const materia = await prisma.materia.findUnique({ where: { id: materiaId } })
