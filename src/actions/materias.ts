@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma'
 import { auth } from '@/lib/auth'
+import { parseFechaLocal } from '@/lib/fechas'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 
@@ -16,8 +17,14 @@ export async function createMateria(formData: FormData): Promise<MateriaActionRe
   await requireAdmin()
   const nombre = (formData.get('nombre') as string).trim()
   const descripcion = (formData.get('descripcion') as string)?.trim() || null
-  const fechaApertura = new Date(formData.get('fechaApertura') as string)
-  const fechaCierre = new Date(formData.get('fechaCierre') as string)
+  let fechaApertura: Date
+  let fechaCierre: Date
+  try {
+    fechaApertura = parseFechaLocal(formData.get('fechaApertura') as string)
+    fechaCierre = parseFechaLocal(formData.get('fechaCierre') as string)
+  } catch {
+    return { error: 'Revisá las fechas de apertura y cierre' }
+  }
 
   if (fechaCierre <= fechaApertura) {
     return { error: 'La fecha de cierre debe ser posterior a la apertura' }
@@ -32,8 +39,14 @@ export async function updateMateria(id: string, formData: FormData): Promise<Mat
   await requireAdmin()
   const nombre = (formData.get('nombre') as string).trim()
   const descripcion = (formData.get('descripcion') as string)?.trim() || null
-  const fechaApertura = new Date(formData.get('fechaApertura') as string)
-  const fechaCierre = new Date(formData.get('fechaCierre') as string)
+  let fechaApertura: Date
+  let fechaCierre: Date
+  try {
+    fechaApertura = parseFechaLocal(formData.get('fechaApertura') as string)
+    fechaCierre = parseFechaLocal(formData.get('fechaCierre') as string)
+  } catch {
+    return { error: 'Revisá las fechas de apertura y cierre' }
+  }
 
   if (fechaCierre <= fechaApertura) {
     return { error: 'La fecha de cierre debe ser posterior a la apertura' }

@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { formatFechaHora } from '@/lib/fechas'
 import Link from 'next/link'
 import { buttonClassName } from '@/components/ui/Button'
 import { MateriaStatusBadge } from '@/components/MateriaStatusBadge'
@@ -73,7 +74,7 @@ export default async function HomePage() {
                     <div className="mb-2 flex flex-wrap items-center gap-2">
                       <MateriaStatusBadge fechaApertura={materia.fechaApertura} fechaCierre={materia.fechaCierre} />
                       <span className="text-xs font-medium text-gray-500">
-                        Cierra {materia.fechaCierre.toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' })}
+                        Cierra {formatFechaHora(materia.fechaCierre)}
                       </span>
                     </div>
                     <h3 className="text-lg font-bold text-gray-950">{materia.nombre}</h3>

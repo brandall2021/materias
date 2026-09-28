@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { formatFechaHora } from '@/lib/fechas'
 import PDFDocument from 'pdfkit'
 import QRCode from 'qrcode'
 
@@ -21,7 +22,7 @@ export async function GET(
     `Nombre: ${inscripcion.apellido}, ${inscripcion.nombre}`,
     `DNI: ${inscripcion.dni}`,
     `Materia: ${inscripcion.materia.nombre}`,
-    `Inscripto el: ${inscripcion.fechaInscripcion.toLocaleString('es-AR')}`,
+    `Inscripto el: ${formatFechaHora(inscripcion.fechaInscripcion)}`,
   ].join('\n')
 
   const qrBuffer = await QRCode.toBuffer(qrContent, { width: 150 })
@@ -46,7 +47,7 @@ export async function GET(
     doc.fontSize(14).font('Helvetica-Bold').text(`Materia:  ${inscripcion.materia.nombre}`)
     doc.moveDown(0.5)
     doc.fontSize(12).font('Helvetica').text(
-      `Fecha de inscripción:  ${inscripcion.fechaInscripcion.toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' })}`
+      `Fecha de inscripción:  ${formatFechaHora(inscripcion.fechaInscripcion)}`
     )
     doc.moveDown(1.5)
     doc.image(qrBuffer, { fit: [150, 150], align: 'center' })

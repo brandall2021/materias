@@ -1,13 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import { updateMateria } from '@/actions/materias'
 import { MateriaForm } from '@/components/MateriaForm'
+import { toInputDateTimeLocal } from '@/lib/fechas'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-
-function toDatetimeLocal(date: Date) {
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`
-}
 
 export default async function EditarMateriaPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -31,8 +27,8 @@ export default async function EditarMateriaPage({ params }: { params: Promise<{ 
         defaultValues={{
           nombre: materia.nombre,
           descripcion: materia.descripcion ?? '',
-          fechaApertura: toDatetimeLocal(materia.fechaApertura),
-          fechaCierre: toDatetimeLocal(materia.fechaCierre),
+          fechaApertura: toInputDateTimeLocal(materia.fechaApertura),
+          fechaCierre: toInputDateTimeLocal(materia.fechaCierre),
         }}
       />
     </div>

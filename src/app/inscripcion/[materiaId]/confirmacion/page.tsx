@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { formatFechaHora } from '@/lib/fechas'
 import { notFound } from 'next/navigation'
 import { InstitutionalBrand } from '@/components/InstitutionalBrand'
 import Link from 'next/link'
@@ -55,7 +56,7 @@ export default async function ConfirmacionPage({
               <div>
                 <dt className="text-xs font-semibold uppercase tracking-wide text-gray-500">Fecha</dt>
                 <dd className="mt-1 text-sm text-gray-900">
-                  {inscripcion.fechaInscripcion.toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' })}
+                  {formatFechaHora(inscripcion.fechaInscripcion)}
                 </dd>
               </div>
             </div>

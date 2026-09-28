@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { formatFechaHora } from '@/lib/fechas'
 import Link from 'next/link'
 import { buttonClassName } from '@/components/ui/Button'
 import { MateriaStatusBadge } from '@/components/MateriaStatusBadge'
@@ -48,7 +49,7 @@ export default async function AdminMateriasPage() {
                     <p className="mt-1 truncate text-sm text-gray-500">{materia.descripcion}</p>
                   )}
                   <p className="mt-2 text-xs text-gray-500">
-                    {materia.fechaApertura.toLocaleString('es-AR')} a {materia.fechaCierre.toLocaleString('es-AR')}
+                    {formatFechaHora(materia.fechaApertura)} a {formatFechaHora(materia.fechaCierre)}
                   </p>
                 </div>
                 <div>

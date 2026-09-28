@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { formatFechaHora } from '@/lib/fechas'
 import { notFound } from 'next/navigation'
 import { ExportButtons } from '@/components/ExportButtons'
 import { MateriaStatusBadge } from '@/components/MateriaStatusBadge'
@@ -57,7 +58,7 @@ export default async function InscriptosPage({ params }: { params: Promise<{ id:
                     <td className="px-5 py-3 text-gray-800">{inscripcion.nombre}</td>
                     <td className="px-5 py-3 text-gray-600">{inscripcion.dni}</td>
                     <td className="px-5 py-3 text-gray-500">
-                      {inscripcion.fechaInscripcion.toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' })}
+                      {formatFechaHora(inscripcion.fechaInscripcion)}
                     </td>
                   </tr>
                 ))}

@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { formatFechaHora } from '@/lib/fechas'
 import { notFound } from 'next/navigation'
 import { isMateriaActiva } from '@/lib/materia-status'
 import { InscripcionForm } from '@/components/InscripcionForm'
@@ -34,13 +35,13 @@ export default async function InscripcionPage({ params }: { params: Promise<{ ma
             <div className="rounded-md border border-gray-200 bg-white p-4">
               <dt className="text-xs font-semibold uppercase tracking-wide text-gray-500">Apertura</dt>
               <dd className="mt-1 text-sm font-semibold text-gray-900">
-                {materia.fechaApertura.toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' })}
+                {formatFechaHora(materia.fechaApertura)}
               </dd>
             </div>
             <div className="rounded-md border border-gray-200 bg-white p-4">
               <dt className="text-xs font-semibold uppercase tracking-wide text-gray-500">Cierre</dt>
               <dd className="mt-1 text-sm font-semibold text-gray-900">
-                {materia.fechaCierre.toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' })}
+                {formatFechaHora(materia.fechaCierre)}
               </dd>
             </div>
           </dl>

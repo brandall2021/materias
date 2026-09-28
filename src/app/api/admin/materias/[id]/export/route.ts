@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { formatFecha, formatFechaHora } from '@/lib/fechas'
 import PDFDocument from 'pdfkit'
 
 export async function GET(
@@ -31,7 +32,7 @@ export async function GET(
           `"${i.apellido}"`,
           `"${i.nombre}"`,
           `"${i.dni}"`,
-          `"${i.fechaInscripcion.toLocaleString('es-AR')}"`,
+          `"${formatFechaHora(i.fechaInscripcion)}"`,
         ].join(',')
       )
       .join('\n')
@@ -56,7 +57,7 @@ export async function GET(
       doc.fontSize(18).font('Helvetica-Bold').text(`Inscriptos — ${materia.nombre}`, { align: 'center' })
       doc.moveDown(0.5)
       doc.fontSize(10).font('Helvetica').text(
-        `Exportado el ${new Date().toLocaleString('es-AR')} | Total: ${materia.inscripciones.length}`,
+        `Exportado el ${formatFechaHora(new Date())} | Total: ${materia.inscripciones.length}`,
         { align: 'center' }
       )
       doc.moveDown()
@@ -79,7 +80,7 @@ export async function GET(
         doc.text(i.apellido, colX[0], y, { width: 130, continued: true })
         doc.text(i.nombre, colX[1], y, { width: 130, continued: true })
         doc.text(i.dni, colX[2], y, { width: 70, continued: true })
-        doc.text(new Date(i.fechaInscripcion).toLocaleDateString('es-AR'), colX[3], y)
+        doc.text(formatFecha(i.fechaInscripcion), colX[3], y)
         doc.moveDown(0.2)
       }
 

@@ -1,4 +1,5 @@
 FROM node:20-alpine AS base
+ENV TZ=America/Argentina/Buenos_Aires
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat openssl
@@ -23,7 +24,7 @@ RUN npm ci --omit=dev
 RUN npx prisma generate
 
 FROM base AS runner
-RUN apk add --no-cache openssl libc6-compat postgresql-client
+RUN apk add --no-cache openssl libc6-compat postgresql-client tzdata
 WORKDIR /app
 ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
